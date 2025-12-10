@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const PORT = 3000
 const moviesRout = require('./routers/movies')
+const errorServer = require('./middlewares/serverError')
+const notFound = require('./middlewares/notFound')
 
 app.use(express.static('public'))
 
@@ -16,3 +18,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/movies', moviesRout)
+
+app.use(errorServer)
+app.use(notFound)

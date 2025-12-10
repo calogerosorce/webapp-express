@@ -1,4 +1,3 @@
-const { error } = require('console')
 const connection = require('../database/connection')
 
 const index = (req, res) => {
