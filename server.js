@@ -1,7 +1,7 @@
-const { log } = require('console')
 const express = require('express')
 const app = express()
 const PORT = 3000
+const moviesRout = require('./routers/movies')
 
 app.use(express.static('public'))
 
@@ -14,3 +14,5 @@ app.listen(PORT, () => {
 app.get('/', (req, res) => {
     res.send('Movies app on')
 })
+
+app.use('/movies', moviesRout)
