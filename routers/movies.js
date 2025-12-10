@@ -1,14 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const moviesControl = require('../controllers/moviesControl')
 
+router.get('/', moviesControl.index)
 
-router.get('/', (req, res) => {
-
-    res.send('Show all movies')
-})
-
-router.get('/:id', (req, res) => {
-    res.send(`Show movie id ${req.params.id}`)
-})
+router.get('/:id', moviesControl.show)
 
 module.exports = router
