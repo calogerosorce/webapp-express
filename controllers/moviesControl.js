@@ -2,7 +2,7 @@ const connection = require('../database/connection')
 
 const index = (req, res) => {
 
-    const sql = 'SELECT * FROM movies'
+    const sql = 'SELECT * FROM movies ORDER BY id DESC'
 
     connection.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: true, message: err.message })
@@ -31,7 +31,34 @@ const show = (req, res) => {
     })
 }
 
+const storeMovie = (req, res) => {
+    const { title, director, genre, release_year, abstract } = req.body
+    const image = req.file ? req.file.filename : null
+
+    const imageLog = `http://localhost:3000/movies/uploads/${image}`
+
+    const sql = 'INSERT INTO movies (title, director, genre, release_year, abstract, image) VALUES (?, ?, ?, ?, ?, ?)'
+    connection.query(sql, [title, director, genre, release_year, abstract, imageLog], (err, results) => {
+        if (err) return res.status(500).json({ error: true, message: err.message })
+        res.status(201).json({ message: 'Movie created', id: results.insertId })
+    })
+}
+
+const store = (req, res) => {
+    const movieId = Number(req.params.id)
+    const { name, vote, recensione } = req.body
+
+    const sql = 'INSERT INTO reviews (movie_id, name, vote, text) VALUES (?, ?, ?, ?)'
+    connection.query(sql, [movieId, name, vote, recensione], (err, results) => {
+        if (err) return res.status(500).json({ error: true, message: err.message })
+        res.status(201).json({ message: "Review created", reviewId: results.insertId })
+    })
+}
+
+
 module.exports = {
     index,
-    show
+    show,
+    storeMovie,
+    store
 }
