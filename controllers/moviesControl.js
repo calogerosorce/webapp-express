@@ -35,7 +35,8 @@ const storeMovie = (req, res) => {
     const { title, director, genre, release_year, abstract } = req.body
     const image = req.file ? req.file.filename : null
 
-    const imageLog = `http://localhost:3000/movies/uploads/${image}`
+    const imageLog = image
+
 
     const sql = 'INSERT INTO movies (title, director, genre, release_year, abstract, image) VALUES (?, ?, ?, ?, ?, ?)'
     connection.query(sql, [title, director, genre, release_year, abstract, imageLog], (err, results) => {
