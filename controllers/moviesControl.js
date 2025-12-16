@@ -1,3 +1,4 @@
+const { text } = require('express')
 const connection = require('../database/connection')
 
 const index = (req, res) => {
@@ -48,6 +49,14 @@ const storeMovie = (req, res) => {
 const store = (req, res) => {
     const movieId = Number(req.params.id)
     const { name, vote, recensione } = req.body
+
+    if (name === "" || name.length <= 3) {
+        return res.status(400).send("Name not found")
+    } else if (vote == "") {
+        return res.status(400).send("Vote not found")
+    } else if (recensione === "" || recensione.length <= 10) {
+        return res.status(400).send("Text not found")
+    }
 
     const sql = 'INSERT INTO reviews (movie_id, name, vote, text) VALUES (?, ?, ?, ?)'
     connection.query(sql, [movieId, name, vote, recensione], (err, results) => {
